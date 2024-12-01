@@ -5,11 +5,11 @@ type: tech
 topics:
   - dotfiles
   - NeoVim
-published: false
+published: true
 publication_name: simpleform_blog
 ---
 
-本記事は SimpleForm Advent Calendar 2024 の 1 日目の記事です。
+本記事は [SimpleForm Advent Calendar 2024](https://qiita.com/advent-calendar/2024/simpleform) の 1 日目の記事です。
 
 2024 年 10 月頃から dotfiles をパブリックリポジトリで管理し始めました。
 この記事では、作り始めたきっかけや導入しているツールなどについて紹介したいと思います。
