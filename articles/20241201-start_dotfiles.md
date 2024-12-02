@@ -4,7 +4,7 @@ emoji: "\U0001F6E0️"
 type: tech
 topics:
   - dotfiles
-  - NeoVim
+  - Neovim
 published: true
 publication_name: simpleform_blog
 ---
@@ -20,11 +20,11 @@ publication_name: simpleform_blog
 
 ## dotfiles を管理し始めたきっかけ
 
-筆者は 2023 年 5 月から NeoVim を使っているのですが、当時いくつかのディストリビューションを調べた上で、[NvChad](https://nvchad.com/) というディストリビューションを利用して NeoVim を使い始めました。
+筆者は 2023 年 5 月から Neovim を使っているのですが、当時いくつかのディストリビューションを調べた上で、[NvChad](https://nvchad.com/) というディストリビューションを利用して Neovim を使い始めました。
 最初に設定してからずっと特に手を入れずに使っていたのですが、2023 年 8 月にアーカイブされた null-ls.nvim をずっと使っていたため、そろそろ脱 null-ls せねばと重い腰を上げて、2024 年 9 月末から移行先の候補を調査していました。
 その際に、[2024 年 3 月に NvChad の新しいバージョンがリリースされている](https://github.com/NvChad/NvChad/releases/tag/v2.5)ことに気づいたのでアップデートしようと思ったのですが、少しカスタマイズしていたことや、新しいバージョンでは [starter template](https://github.com/nvchad/starter) が使われるようになっていたことなどから、アップデートで躓いて環境を壊してしまいました...。
 
-使い始めた当初は NeoVim の知識もあまりなくそれほど凝ったカスタマイズをしていたわけでもないので、アップデートは諦めて最初から設定し直すことにしました。
+使い始めた当初は Neovim の知識もあまりなくそれほど凝ったカスタマイズをしていたわけでもないので、アップデートは諦めて最初から設定し直すことにしました。
 せっかく作り直すなら、今後違うマシンを使う時にも簡単に移行できるように dotfiles 管理もしたいなと考えたことが上のリポジトリを作り始めたきっかけです。
 
 ## dotfiles 管理ことはじめ
@@ -43,7 +43,7 @@ dotfiles 管理をするにあたり、他の人はどう管理しているの�
 - PR 以外からの main ブランチへのコミットを禁止し、CI が通ることを PR マージの必須条件とする
   - 個人開発とはいえ開発プロセスはちゃんとしておこうかなというモチベーションです
 
-最初は最低限の NeoVim の設定と CI の整備を進め、10 月中旬には上の方針を満たす形で開発が進められるようになりました。
+最初は最低限の Neovim の設定と CI の整備を進め、10 月中旬には上の方針を満たす形で開発が進められるようになりました。
 
 ## 現在 dotfiles で導入しているツールなど
 
@@ -57,7 +57,7 @@ dotfiles 管理をするにあたり、他の人はどう管理しているの�
 ### 開発ツール管理 : [mise](https://mise.jdx.dev/)
 
 筆者は普段 Python、Ruby、Node.js を書くことが多く、これまでは pyenv、rbenv、nodeenv などで各言語のバージョン管理をしていましたが、asdf や mise などあらゆる言語を管理できるツールを試してみたいなと思い、mise を使ってみることにしました。
-以前は NeoVim で使う LSP、Linter/Formatter は Mason でインストールしていましたが、いまは mise や pnpm でのインストールを基本線とすることにして、Mason は使わないようになりました。
+以前は Neovim で使う LSP、Linter/Formatter は Mason でインストールしていましたが、いまは mise や pnpm でのインストールを基本線とすることにして、Mason は使わないようになりました。
 
 ### シェルプラグインマネージャ : [Sheldon](https://sheldon.cli.rs/)
 
@@ -70,17 +70,17 @@ Zinit を使っていた時は .zshrc にプラグインのインストールな
 ### ターミナルエミュレータ : [WezTerm](https://wezfurlong.org/wezterm/index.html)
 
 元々 Pop!\_OS では Terminator を使っていたのですが、Ubuntu と macOS どちらでも導入できるようにするという意味ではターミナルエミュレータもクロスプラットフォームで使えるものを導入したい、さらに言えばファイルで設定を管理できるものが良いと考えました。
-いくつか候補はありましたが、NeoVim ユーザとしては Lua で設定ファイルを書けるというのに興味を惹かれて WezTerm を導入してみることにしました。
+いくつか候補はありましたが、Neovim ユーザとしては Lua で設定ファイルを書けるというのに興味を惹かれて WezTerm を導入してみることにしました。
 とは言え、現時点では非常に簡素な設定しかしていないのであまり Lua で設定ファイルを書ける意味もない感はありますが、これからもう少し色々な設定に手を出したいなと感じるところです。
 
-### テキストエディタ : [NeoVim](https://neovim.io/)
+### テキストエディタ : [Neovim](https://neovim.io/)
 
-NeoVim の環境を作り直したのを機に、便利そうなプラグインを探して新しく導入してみました。
+Neovim の環境を作り直したのを機に、便利そうなプラグインを探して新しく導入してみました。
 現時点で使っている主なプラグインを紹介します。
 
 #### プラグイン管理 : [lazy.nvim](https://lazy.folke.io/)
 
-NeoVim を使い始めた当初から変わらず使っています。
+Neovim を使い始めた当初から変わらず使っています。
 最近 [rocks.nvim](https://github.com/nvim-neorocks/rocks.nvim) も気になっているものの、まだ手を出せていないです。
 
 #### LSP 設定 : [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)

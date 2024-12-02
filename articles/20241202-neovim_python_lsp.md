@@ -9,7 +9,7 @@ published: true
 publication_name: simpleform_blog
 ---
 
-本記事は SimpleForm Advent Calendar 2024 の 2 日目の記事です。
+本記事は [SimpleForm Advent Calendar 2024](https://qiita.com/advent-calendar/2024/simpleform) の 2 日目の記事です。
 
 1 日目の記事では、筆者が dotfiles を管理し始めたきっかけや使っているツールなどを紹介しました。
 本日の記事では、dotfiles で管理している Neovim の設定のこだわりの一つである Python での開発を便利にする設定を紹介します。
