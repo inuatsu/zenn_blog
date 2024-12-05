@@ -4,14 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "textlint '**/*.md'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/markdown-it": "^14.1.2",
+    "prh": "^5.4.4",
+    "textlint": "^14.4.0",
+    "textlint-rule-preset-ja-technical-writing": "^10.0.1",
+    "textlint-rule-prh": "^6.0.0",
     "zenn-cli": "^0.1.158"
   },
-  "packageManager": "pnpm@9.12.2+sha1.3012e6dd27e70ec4e185be062e8a124523dccfc4"
+  "packageManager": "pnpm@9.14.4"
 }
