@@ -1,9 +1,13 @@
 ---
-title: "ECS Fargate 上でフォワードプロキシサーバを構築する (前編)"
-emoji: "🌐"
-type: "tech"
-topics: ["aws", "ecs"]
-published: false
+title: ECS Fargate 上でフォワードプロキシサーバを構築する (前編)
+emoji: "\U0001F310"
+type: tech
+topics:
+  - aws
+  - ecs
+published: true
+published_at: "2022-06-15 07:00"
+publication_name: simpleform_blog
 ---
 
 今回は、ECS Fargate 上でフォワードプロキシサーバを構築する方法を紹介します。
@@ -28,8 +32,8 @@ NLB のドメインでフォワードプロキシサーバを指定して使う�
 
 Google で検索すると、EC2 でフォワードプロキシサーバを構築している記事はいくつか見かけました。
 
-https://qiita.com/miyabiz/items/06a70f879c53fd07e635
-https://nopipi.hatenablog.com/entry/2022/02/13/100000
+@[card](https://qiita.com/miyabiz/items/06a70f879c53fd07e635)
+@[card](https://nopipi.hatenablog.com/entry/2022/02/13/100000)
 
 ただ、EC2 で構築する場合サーバのメンテナンスが面倒だなと感じるのが正直なところです。ECS Fargate で構築すれば、同じ構成のコンテナを何台立てるのも楽ですし、定期的にコンテナを落として IP ローテーションをするといったことも難なくできそうです。というわけで、ECS Fargate を前提に検討しました。
 
@@ -53,7 +57,7 @@ ECS で IP ローテーションしようと思うと、パブリックサブネ
 
 1. Nginx はデフォルトでは HTTPS 通信をフォワードプロキシできないため、ソースコードをダウンロードした上で別途パッチを適用する必要がある[^1]
 1. Nginx はデフォルトでは Digest 認証に対応していないため、ソースコードをダウンロードした上で別途 Digest 認証モジュールを追加してコンパイルする必要がある[^2]
-    
+
 2 点目に関しては、上に書いたように ECS の IP 自動割当を有効化するためにパブリックサブネットに配置しようと思うと、サーバが全世界に公開されてしまうため、何かしらの認証を設けたいと考えていました。Basic 認証よりはまだ Digest 認証の方がマシかなということで Digest 認証を使おうと思っていたのですが、Nginx はデフォルトだと対応していないと知って意外に思いました。
 
 Squid は上記 2 点いずれもデフォルトで対応しています。
@@ -68,6 +72,7 @@ Squid は上記 2 点いずれもデフォルトで対応しています。
 長いので、全体をご覧になりたい方はアコーディオンを開いてください。
 
 :::details squid.conf
+
 ```
 auth_param digest program /usr/lib/squid/digest_file_auth -c /etc/squid/password
 auth_param digest children 20 startup=0 idle=1
@@ -98,16 +103,16 @@ http_access allow nlb_ip
 http_access allow client_ip
 
 acl SSL_ports port 443
-acl Safe_ports port 80		# http
-acl Safe_ports port 21		# ftp
-acl Safe_ports port 443		# https
-acl Safe_ports port 70		# gopher
-acl Safe_ports port 210		# wais
-acl Safe_ports port 1025-65535	# unregistered ports
-acl Safe_ports port 280		# http-mgmt
-acl Safe_ports port 488		# gss-http
-acl Safe_ports port 591		# filemaker
-acl Safe_ports port 777		# multiling http
+acl Safe_ports port 80  # http
+acl Safe_ports port 21  # ftp
+acl Safe_ports port 443  # https
+acl Safe_ports port 70  # gopher
+acl Safe_ports port 210  # wais
+acl Safe_ports port 1025-65535 # unregistered ports
+acl Safe_ports port 280  # http-mgmt
+acl Safe_ports port 488  # gss-http
+acl Safe_ports port 591  # filemaker
+acl Safe_ports port 777  # multiling http
 acl CONNECT method CONNECT
 
 #
@@ -160,6 +165,7 @@ access_log stdio:/proc/self/fd/1 timefm
 # Leave coredumps in the first cache dir
 coredump_dir /var/cache/squid
 ```
+
 :::
 
 デフォルトの設定と異なる箇所のみ解説します。
@@ -185,7 +191,7 @@ http_access allow digest_user
 - `digest_user` は ACL の名前です。任意の文字列を指定できます。
 - その他、各種パラメータの意味は公式ドキュメントに詳しいです。
 
-http://www.squid-cache.org/Doc/config/auth_param/
+@[card](http://www.squid-cache.org/Doc/config/auth_param/)
 
 ### Listen するポートの指定
 
@@ -220,7 +226,7 @@ http_access allow client_ip
 
 :::message
 Squid の設定ファイルは上から読まれるため、順番が大事です。`http_access deny all` が登場するまでの間にアクセス許可される条件に当てはまらないと、アクセス拒否されます。
-そのため、Digest 認証の設定や許可するアクセス元 IP アドレスの設定は `http_access deny all` の行より上に書く必要があります。 
+そのため、Digest 認証の設定や許可するアクセス元 IP アドレスの設定は `http_access deny all` の行より上に書く必要があります。
 :::
 
 ### その他細かな設定
@@ -259,6 +265,7 @@ httpd_suppress_version_string on
 ## Squid の起動スクリプト
 
 :::details start_squid.sh
+
 ```
 #!/bin/sh
 
@@ -277,6 +284,7 @@ sleep 5
 echo "Starting Squid..."
 exec "$SQUID" -NYCd 1
 ```
+
 :::
 
 Squid の起動スクリプトは上記のようにしました。使っているオプションは以下の通りです[^8]。
@@ -290,6 +298,7 @@ Squid の起動スクリプトは上記のようにしました。使ってい�
 ## Dockerfile
 
 :::details Dockerfile
+
 ```
 FROM debian:bullseye-slim
 
@@ -324,6 +333,7 @@ USER squid
 
 CMD ["/usr/local/bin/start-squid.sh"]
 ```
+
 :::
 
 Dockerfile は上記のようにしました。ポイントは以下のとおりです。
@@ -339,12 +349,18 @@ Dockerfile は上記のようにしました。ポイントは以下のとおり
 
 次回は、ECS Fargate へのデプロイおよび関連するリソースの設定周りを解説し、実際に起動したフォワードプロキシサーバにアクセスしてフォワードプロキシとして機能していることの確認まで行います。
 
+[^1]: 詳細は <https://fujiu.hatenablog.com/entry/2020/03/15/010353> をご参照ください
 
-[^1]: 詳細は https://fujiu.hatenablog.com/entry/2020/03/15/010353 をご参照ください
-[^2]: 詳細は https://qiita.com/heiwa_pinf/items/72bd8569320f9362a5b3 をご参照ください
-[^3]: Proxy Protocol に関しては https://dev.classmethod.jp/articles/nlb-meets-proxy-protocol-v2/ をご参照ください
-[^4]: 公式ドキュメントでは http://www.squid-cache.org/Doc/config/http_port/ に `require-proxy-header` のパラメータの説明があります
-[^5]: NLB 経由で Squid サーバにアクセスする場合の設定のアクセス制限の方法については https://blog.serverworks.co.jp/tech/2018/04/13/clb-proxyprotocol/ を参考にしました
-[^6]: ログのフォーマット、出力先については https://blog.mmmcorp.co.jp/blog/2018/02/17/squid_ecs/#outline__4 を参考にしました
-[^7]: アクセス元情報の隠匿、エラーページでの Squid バージョンの非表示などは https://dev.classmethod.jp/articles/redundant-proxy-servers-using-squid-and-nlb-and-efs/#toc-9 を参考にしました
-[^8]: https://blog.mmmcorp.co.jp/blog/2018/02/17/squid_ecs/#outline__7 の内容を拝借しました。オプションの説明は https://linux.die.net/man/8/squid を参考にしました
+[^2]: 詳細は <https://qiita.com/heiwa_pinf/items/72bd8569320f9362a5b3> をご参照ください
+
+[^3]: Proxy Protocol に関しては <https://dev.classmethod.jp/articles/nlb-meets-proxy-protocol-v2/> をご参照ください
+
+[^4]: 公式ドキュメントでは <http://www.squid-cache.org/Doc/config/http_port/> に `require-proxy-header` のパラメータの説明があります
+
+[^5]: NLB 経由で Squid サーバにアクセスする場合の設定のアクセス制限の方法については <https://blog.serverworks.co.jp/tech/2018/04/13/clb-proxyprotocol/> を参考にしました
+
+[^6]: ログのフォーマット、出力先については <https://blog.mmmcorp.co.jp/blog/2018/02/17/squid_ecs/#outline__4> を参考にしました
+
+[^7]: アクセス元情報の隠匿、エラーページでの Squid バージョンの非表示などは <https://dev.classmethod.jp/articles/redundant-proxy-servers-using-squid-and-nlb-and-efs/#toc-9> を参考にしました
+
+[^8]: <https://blog.mmmcorp.co.jp/blog/2018/02/17/squid_ecs/#outline__7> の内容を拝借しました。オプションの説明は <https://linux.die.net/man/8/squid> を参考にしました
