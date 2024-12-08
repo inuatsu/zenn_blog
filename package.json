@@ -4,18 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "textlint '**/*.md'"
+    "lint": "textlint './{articles/books}/*md'",
+    "lint:fix": "textlint './{articles/books}/*md' --fix",
+    "preview": "zenn preview"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "packageManager": "pnpm@9.15.0",
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.0",
+    "@commitlint/config-conventional": "^19.6.0",
     "@types/markdown-it": "^14.1.2",
     "prh": "^5.4.4",
     "textlint": "^14.4.0",
+    "textlint-filter-rule-allowlist": "^4.0.0",
+    "textlint-filter-rule-comments": "^1.2.2",
     "textlint-rule-preset-ja-technical-writing": "^10.0.1",
     "textlint-rule-prh": "^6.0.0",
     "zenn-cli": "^0.1.158"
-  },
-  "packageManager": "pnpm@9.14.4"
+  }
 }

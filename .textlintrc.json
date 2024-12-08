@@ -1,8 +1,21 @@
 {
   "plugins": {},
-  "filters": {},
+  "filters": {
+    "allowlist": {
+      "allowlistConfigPaths": ["allow.yaml"]
+    },
+    "comments": true
+  },
   "rules": {
-    "preset-ja-technical-writing": true,
+    "preset-ja-technical-writing": {
+      "max-kanji-continuous-len": {
+        "max": 6,
+        "allow": ["会社法人等番号", "特定非営利活動法人"]
+      },
+      "no-exclamation-question-mark": {
+        "allow": ["Pop!\\_OS"]
+      }
+    },
     "prh": {
       "rulePaths": [
         "node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml"
