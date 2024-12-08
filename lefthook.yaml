@@ -1,0 +1,11 @@
+pre-commit:
+  commands:
+    textlint:
+      glob: "*.md"
+      run: pnpm textlint {staged_files}
+
+commit-msg:
+  skip: merge
+  commands:
+    commitlint:
+      run: pnpm commitlint --edit
