@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "textlint './{articles/books}/*md'",
-    "lint:fix": "textlint './{articles/books}/*md' --fix",
+    "lint": "textlint '**/*.md'",
+    "lint:fix": "textlint '**/*.md' --fix",
+    "new:article": "zenn new:article",
+    "new:book": "zenn new:book",
     "preview": "zenn preview"
   },
   "commitlint": {
